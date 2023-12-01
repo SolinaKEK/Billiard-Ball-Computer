@@ -19,16 +19,9 @@ function StatArea() {
     this.div
       .append("a")
       .classed("text", !0)
-      .text("planar")
+      .text("intro")
       .on("click", function () {
         Examples.load(Ex.PLANAR);
-      }),
-    this.div
-      .append("a")
-      .classed("text", !0)
-      .text("switch")
-      .on("click", function () {
-        Examples.load(Ex.SWITCH);
       }),
     this.div
       .append("a")
@@ -44,27 +37,27 @@ function StatArea() {
       .on("click", function () {
         Examples.load(Ex.NOT);
       }),
-    this.div
-      .append("a")
-      .classed("text", !0)
-      .text("fanout")
-      .on("click", function () {
-        Examples.load(Ex.FANOUT);
-      }),
       this.div
       .append("a")
       .classed("text", !0)
-      .text("toffoli")
+      .text("switch")
       .on("click", function () {
-        Examples.load();
+        Examples.load(Ex.SWITCH);
       }),
-      this.div
-      .append("a")
-      .classed("text", !0)
-      .text("fredkin")
-      .on("click", function () {
-        Examples.load();
-      }),
+      // this.div
+      // .append("a")
+      // .classed("text", !0)
+      // .text("toffoli")
+      // .on("click", function () {
+      //   Examples.load();
+      // }),
+      // this.div
+      // .append("a")
+      // .classed("text", !0)
+      // .text("fredkin")
+      // .on("click", function () {
+      //   Examples.load();
+      // }),
       this.div
       .append("a")
       .classed("text", !0)
@@ -72,15 +65,6 @@ function StatArea() {
       .on("click", function () {
         Examples.load();
       });
-}
-function DescArea() {
-    (this.x = 0),
-    (this.y = 0),
-    (this.w = $(".rightArea").width()),
-    (this.h = $(window).height()),
-    (this.padding = 10);
-    var t = d3.select(".rightArea");
-    (this._descbox = t.append("descbox"))
 }
 function DrawingArea() {
   (this.x = StatArea.w),
@@ -180,8 +164,6 @@ var Elements = {
   constructor: StatArea
 }),
   (StatArea = new StatArea()),
-  (DescArea.prototype = { constructor: DescArea }),
-  (DescArea = new DescArea()),
   (DA = new DrawingArea()),
   (Drawable.prototype = {
     constructor: Drawable,
@@ -847,32 +829,27 @@ var Elements = {
       switch (t) {
         case Ex.PLANAR:
           Metastate.load(
-            '[[[6,9],[12,9],[13,7],[14,11],[14,7],[13,11],[15,11],[16,11],[12,7],[21,12],[23,8],[23,11]],[[15,8],[13,9],[17,8],[15,7],[17,10],[17,9],[13,10],[17,7]],[[4,6,true],[10,6,true],[20,6,true],[20,10,true]],[],[],[],[[5.692068429237947,10.295489891135304,"Turning"],[14.898911353032661,12.628304821150856,"Arbitrary delays"],[21.959564541213066,13.374805598755833,"Signal crossover"]],"A 2D grid of bouncing billiard balls is just as expressive as a physical circuit.  From left to right: Turning, arbitrarily long delays, and signal crossover."]'
+            '[[[6,9],[12,9],[13,7],[14,11],[14,7],[13,11],[15,11],[16,11],[12,7],[21,12],[23,8],[23,11]],[[15,8],[13,9],[17,8],[15,7],[17,10],[17,9],[13,10],[17,7]],[[4,6,true],[10,6,true],[20,6,true],[20,10,true]],[],[],[],[[5.692068429237947,10.295489891135304,"Turning"],[14.898911353032661,12.628304821150856,"Arbitrary delays"],[21.959564541213066,13.374805598755833,"Signal crossover"]]]'
           );
           break;
         case Ex.SWITCH:
           Metastate.load(
-            '[[[8,6],[10,7],[12,12]],[],[],[],[[7,12,true],[7,8,true]],[[16,7],[16,14],[16,3]],[[6.09642301710731,8.211508553654744,"c"],[6.065318818040436,12.19284603421462,"x"],[17.91601866251944,7.1850699844479005,"cx"],[17.884914463452567,3.203732503888025,"(~c)x"],[17.91601866251944,14.090202177293936,"c"]],"The switch gate takes two arguments, c and x.<br><br>c always passes through the circuit unchanged, but x gets routed to either cx or (~c)x depending on what c is."]'
+            '[[[8,6],[10,7],[12,12]],[],[],[],[[7,12,true],[7,8,true]],[[16,7],[16,14],[16,3]],[[6.09642301710731,8.211508553654744,"c"],[6.065318818040436,12.19284603421462,"x"],[17.91601866251944,7.1850699844479005,"cx"],[17.884914463452567,3.203732503888025,"(~c)x"],[17.91601866251944,14.090202177293936,"c"]]]'
           );
           break;
         case Ex.AND:
           Metastate.load(
-            '[[[8,6]],[],[],[[12,11]],[[7,12,true],[7,8,true]],[[12,6]],[[6.003110419906688,8.087091757387247,"a"],[5.9720062208398135,12.03732503888025,"b"],[13.12597200622084,5.940902021772939,"ab"]],"This is an AND gate.  It only triggers if both inputs are 1.  Notice how similar this is to the switch gate!"]'
+            '[[[8,6]],[],[],[[12,11]],[[7,12,true],[7,8,true]],[[12,6]],[[6.003110419906688,8.087091757387247,"a"],[5.9720062208398135,12.03732503888025,"b"],[13.12597200622084,5.940902021772939,"ab"]]]'
           );
           break;
         case Ex.NOT:
           Metastate.load(
-            '[[],[],[[7,7,true]],[[12,7],[13,5]],[[7,12,false]],[[12,12],[13,14]],[[5.940902021772939,11.975116640746501,"x"],[14.090202177293936,13.96578538102644,"x"],[13.032659409020217,12.006220839813375,"~x"],[5.940902021772939,6.9673405909797825,"1"]],"This is a NOT gate."]'
-          );
-          break;
-        case Ex.FANOUT:
-          Metastate.load(
-            '[[[9,12]],[],[[7,8,true]],[[13,14]],[[7,12,true]],[[13,5],[13,8]],[[6.065318818040436,12.19284603421462,"x"],[6.003110419906688,8.024883359253499,"1"],[13.96578538102644,5.0077760497667185,"x"],[13.934681181959565,7.993779160186626,"x"]],"This is a FAN OUT gate.  It makes a copy of x.<br><br>Note that with AND, NOT, and FAN OUT, our billiard ball computer is Turing complete!"]'
+            '[[],[],[[7,7,true]],[[12,7],[13,5]],[[7,12,false]],[[12,12],[13,14]],[[5.940902021772939,11.975116640746501,"x"],[14.090202177293936,13.96578538102644,"x"],[13.032659409020217,12.006220839813375,"~x"],[5.940902021772939,6.9673405909797825,"1"]]]'
           );
           break;
         default:
           Metastate.load(
-            '[[],[],[],[],[],[],[],""]'
+            '[[],[],[],[],[],[],[]]'
           )
           break;
       }
@@ -881,41 +858,39 @@ var Elements = {
   (Examples = new Examples()),
   Examples.load(Ex.PLANAR),
   $("body").keydown(function (t) {
-    if (document.activeElement !== DescArea._descbox[0][0])
-      switch (t.keyCode) {
-        case 38:
-          Grid.zoomIn(), Grid.redraw(), Metastate.updateSVGs();
-          break;
-        case 40:
-          Grid.zoomOut(), Grid.redraw(), Metastate.updateSVGs();
-          break;
-        case 81:
-          Metastate.selected = Elements.VWALL;
-          break;
-        case 87:
-          Metastate.selected = Elements.HWALL;
-          break;
-        case 68:
-          Metastate.selected = Elements.SOURCE;
-          break;
-        case 70:
-          Metastate.selected = Elements.SINK;
-          break;
-        case 73:
-          State.stop(); State.start();
-          break;
-        case 79:
-          State.stop();
-          break;
-        case 74:
-          State.stepForward();
-          break;
-        case 75:
-          State.stepBack();
-          break;
-        case 82:
-          Metastate.selected = Elements.REMOVER;
-          break;
-          break;
-      }
+    switch (t.keyCode) {
+      case 38:
+        Grid.zoomIn(), Grid.redraw(), Metastate.updateSVGs();
+        break;
+      case 40:
+        Grid.zoomOut(), Grid.redraw(), Metastate.updateSVGs();
+        break;
+      case 81:
+        Metastate.selected = Elements.VWALL;
+        break;
+      case 87:
+        Metastate.selected = Elements.HWALL;
+        break;
+      case 68:
+        Metastate.selected = Elements.SOURCE;
+        break;
+      case 70:
+        Metastate.selected = Elements.SINK;
+        break;
+      case 73:
+        State.stop(); State.start();
+        break;
+      case 79:
+        State.stop();
+        break;
+      case 74:
+        State.stepForward();
+        break;
+      case 75:
+        State.stepBack();
+        break;
+      case 82:
+        Metastate.selected = Elements.REMOVER;
+        break;
+    }
   });
