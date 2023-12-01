@@ -3,7 +3,7 @@ function inheritPrototype(t, e) {
   (i.constructor = t), (t.prototype = i);
 }
 function contains2D(t, e) {
-  for (var i = 0; i < t.length; i++)
+    for (var i = 0; i < t.length; i++)
     if (t[i][0] == e[0] && t[i][1] == e[1]) return !0;
   return !1;
 }
@@ -51,12 +51,19 @@ function StatArea() {
       .on("click", function () {
         Examples.load(Ex.FANOUT);
       }),
-    this.div
+      this.div
       .append("a")
       .classed("text", !0)
       .text("fredkin")
       .on("click", function () {
         Examples.load(Ex.FREDKIN);
+      });
+      this.div
+      .append("a")
+      .classed("text", !0)
+      .text("custom")
+      .on("click", function () {
+        Examples.load();
       });
 }
 function DescArea() {
@@ -703,44 +710,33 @@ var Elements = {
   (RealBallSprite = new RealBallSprite()),
   (State.prototype = {
     constructor: State,
-    start: function () {
+    initBalls: function() {
       (this.balls = []),
-        this.config.args.forEach(function (t) {
-          t[2] && this.balls.push(new Ball(t[0], t[1], 1, -1));
-        }, this),
-        this.config.sources.forEach(function (t) {
-          t[2] && this.balls.push(new Ball(t[0], t[1], 1, 1));
-        }, this),
-        this.balls.forEach(function (t) {
-          this._svgBalls.push(
-            RealBallSprite.constructSVG.apply(this, Grid.getDrawPos(t.x, t.y))
-          );
-        }, this),
-        Metastate.updateSVGs(),
-        (this._interval = setInterval(
-          (function (t) {
-            return function () { t.step(); };
-          })(this),
-          50
-        ));
+      this.config.args.forEach(function (t) {
+        t[2] && this.balls.push(new Ball(t[0], t[1], 1, -1));
+      }, this),
+      this.config.sources.forEach(function (t) {
+        t[2] && this.balls.push(new Ball(t[0], t[1], 1, 1));
+      }, this),
+      this.balls.forEach(function (t) {
+        this._svgBalls.push(
+          RealBallSprite.constructSVG.apply(this, Grid.getDrawPos(t.x, t.y))
+        );
+      }, this),
+      Metastate.updateSVGs()
+    },
+    start: function () {
+      if (this.balls.length == 0) { this.initBalls(); }
+      this.step();      
+      (this._interval = setInterval(
+        (function (t) {
+          return function () { t.step(); };
+        })(this),
+        
+      ));
     },
     stepForward: function () {
-      console.log(this.balls.length == 0);
-      if (this.balls == []) {
-        (this.balls = []),
-        this.config.args.forEach(function (t) {
-          t[2] && this.balls.push(new Ball(t[0], t[1], 1, -1));
-        }, this),
-        this.config.sources.forEach(function (t) {
-          t[2] && this.balls.push(new Ball(t[0], t[1], 1, 1));
-        }, this),
-        this.balls.forEach(function (t) {
-          this._svgBalls.push(
-            RealBallSprite.constructSVG.apply(this, Grid.getDrawPos(t.x, t.y))
-          );
-        }, this),
-        Metastate.updateSVGs()
-      }
+      if (this.balls.length == 0) { this.initBalls(); }
       this.step();
     },
     step: function () {
@@ -804,10 +800,12 @@ var Elements = {
                 ((e.dy *= -1), (s.dy *= -1));
           }
         this.balls.forEach(function (t) {
+          console.log(this.config.vwalls, [t.x - 0.5 * t.dx, t.y - 0.5]);
+          console.log(this.config.hwalls, [t.x - 0.5, t.y + 0.5 * t.dy]);
           (Math.floor(t.x) != t.x || Math.floor(t.y) != t.y) &&
             (contains2D(this.config.vwalls, [t.x - 0.5 * t.dx, t.y - 0.5]) &&
               (t.dx *= -1),
-            contains2D(this.config.hwalls, [t.x - 0.5, t.y + 0.5 - t.dy]) &&
+            contains2D(this.config.hwalls, [t.x - 0.5, t.y + 0.5 * t.dy]) &&
               (t.dy *= -1));
         }, this),
           this._svgBalls.forEach(function (t) {
@@ -872,6 +870,9 @@ var Elements = {
           Metastate.load(
             '[[[2,10],[4,14],[3,10],[5,14],[2,14],[3,14],[2,16],[3,16],[4,16],[5,16],[8,10],[9,10],[8,14],[9,14],[10,14],[11,14],[8,8],[9,8],[10,4],[11,6],[13,3],[14,3],[13,9],[13,11],[13,13],[14,13],[14,11],[14,9],[14,6],[15,8],[16,5],[16,8],[15,3],[17,8],[18,2],[19,2],[20,2],[18,6],[19,8],[20,6],[15,9],[16,9],[17,9],[18,9],[19,9],[20,9],[15,11],[16,11],[17,11],[18,11],[19,11],[20,11],[15,13],[16,13],[17,13],[20,13],[19,13],[18,13],[21,9],[21,11],[21,13],[24,4],[23,6],[25,8],[26,8],[25,10],[26,10],[23,14],[24,14],[25,14],[26,14],[29,14],[30,14],[31,14],[32,14],[32,16],[31,16],[30,16],[29,16],[32,10],[31,10]],[],[],[],[[1,14,true],[1,16,true],[1,12,true]],[[34,12],[34,14],[34,16]],[[7.060653188180405,8.118195956454121,"(~c)x"],[6.9673405909797825,10.015552099533437,"cx"],[7.029548989113531,12.068429237947123,"c"],[13.063763608087092,12.03732503888025,"c"],[13.001555209953345,9.984447900466563,"cy"],[12.908242612752723,8.055987558320373,"(~c)y"],[12.939346811819597,6.003110419906688,"cx"],[12.939346811819597,4.0124416796267495,"(~c)x"],[10.046656298600311,12.006220839813375,"switch gate (c and y)"],[3.981337480559876,11.975116640746501,"switch gate (c and x)"],[14.463452566096423,4.510108864696734,"trivial crossover"],[16.51632970451011,6.500777604976673,"nontrivial crossover"],[17.97822706065319,3.079315707620529,"cx"],[18.009331259720064,5.038880248833593,"(~c)y"],[17.947122861586315,6.998444790046657,"(~c)x"],[19.533437013996892,3.421461897356143,"trivial crossover"],[20.995334370139968,3.048211508553655,"(~c)y"],[22.052877138413688,3.981337480559876,"(~c)y"],[21.99066874027994,6.034214618973562,"cx"],[22.021772939346814,8.024883359253499,"(~c)x"],[20.964230171073094,5.0077760497667185,"cx"],[22.021772939346814,10.046656298600311,"cy"],[22.083981337480562,12.006220839813375,"c"],[35.22550544323484,12.052877138413686,"c"],[35.53654743390358,14.074650077760499,"cx+(~c)y"],[35.45878693623639,16.1353032659409,"(~c)x+cy"],[0.24261275272161742,11.968895800933126,"c"],[0.2021772939346812,14.031104199066874,"x"],[0.24261275272161742,16.052877138413688,"y"],[24.948678071539657,11.92846034214619,"inverse switch gate"],[30.933125972006223,12.049766718507,"inverse switch gate"]],"This is a Fredkin gate.  When c is 0, x and y are swapped.  When c is 1, x and y stay the same.<br><br>This implementation uses four switch gates and one nontrivial crossover."]'
           );
+        default:
+          Metastate.load('[[], [], [], [], [], [], []]');
+          break;
       }
     },
   }),
@@ -898,21 +899,16 @@ var Elements = {
         case 70:
           Metastate.selected = Elements.SINK;
           break;
-        case 85:
-          State.stop(), State.start();
-          break;
         case 73:
-          State.stop(), State.start();
+          State.stop(); State.start();
           break;
         case 79:
           State.stop();
           break;
         case 74:
-          console.log("step forward");
           State.stepForward();
           break;
         case 75:
-          console.log("step back");
           State.stepBack();
           break;
         case 82:
