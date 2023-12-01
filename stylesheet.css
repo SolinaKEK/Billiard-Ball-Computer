@@ -1,6 +1,7 @@
 a {
     text-decoration: underline;
     padding: 2px;
+    cursor: pointer;
 }
 
 svg {
@@ -8,17 +9,19 @@ svg {
     padding: 0px;
     position: absolute;
 }
-
+g rect {
+    fill: black;
+}
 .grid path,
 .grid line {
   fill: none;
-  stroke: #000;
+  stroke: black;
   shape-rendering: crispEdges;
   opacity: 0.5;
 }
 
 .grid .tick {
-    stroke: lightgrey;
+    stroke: black;
     opacity: 0.7;
 }
 .grid path {
@@ -32,11 +35,6 @@ svg {
     width: 200px;
 }
 
-.rightArea {
-    float: right;
-    width: 200px;
-}
-
 .titleArea {
     word-wrap: break-word;
     margin: 10px;
@@ -44,20 +42,8 @@ svg {
 }
 
 .statArea {
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     margin: 10px;
-}
-
-.descTitleArea {
-    word-wrap: break-word;
-    margin: 10px;
-    height: 470px;
-}
-
-.descArea {
-    word-wrap: break-word;
-    margin: 10px;
-    height: 400px;
 }
 
 .title {
